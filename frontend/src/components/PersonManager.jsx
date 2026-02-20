@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './PersonManager.css'
 
 const PERSON_TYPES = ['Individual', 'Company', 'Government']
-const emptyForm = { name: '', type: 'Individual', rut: '' }
+const RELATION_TYPES = ['Self', 'Spouse', 'Child', 'Parent', 'Sibling', 'Other']
+const emptyForm = { name: '', type: 'Individual', rut: '', relation: '' }
 
 export default function PersonManager({ persons, authFetch, onPersonsChange }) {
   const [form, setForm] = useState(emptyForm)
@@ -32,7 +33,7 @@ export default function PersonManager({ persons, authFetch, onPersonsChange }) {
 
   function startEdit(person) {
     setEditingId(person.id)
-    setForm({ name: person.name, type: person.type, rut: person.rut })
+    setForm({ name: person.name, type: person.type, rut: person.rut, relation: person.relation || '' })
   }
 
   function cancelEdit() {
@@ -69,6 +70,12 @@ export default function PersonManager({ persons, authFetch, onPersonsChange }) {
           placeholder="RUT (e.g. 12.345.678-9)"
           required
         />
+        <select name="relation" value={form.relation} onChange={handleChange}>
+          <option value="">No relation</option>
+          {RELATION_TYPES.map((r) => (
+            <option key={r} value={r}>{r}</option>
+          ))}
+        </select>
         <button type="submit" className="btn-primary">
           {editingId ? 'Update' : 'Add'}
         </button>
@@ -89,6 +96,7 @@ export default function PersonManager({ persons, authFetch, onPersonsChange }) {
               <span className="person-name">{p.name}</span>
               <span className="person-meta">
                 <span className="person-type-badge">{p.type}</span>
+                {p.relation && <span className="person-type-badge">{p.relation}</span>}
                 {p.rut}
               </span>
             </div>

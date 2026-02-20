@@ -68,6 +68,7 @@ class Person(Base):
     name = Column(String, nullable=False)
     type = Column(String, nullable=False)
     rut = Column(String, nullable=False)
+    relation = Column(String, nullable=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
     owner = relationship("User", foreign_keys=[user_id], back_populates="persons")

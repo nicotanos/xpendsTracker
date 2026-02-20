@@ -3,7 +3,7 @@ import { useAuth } from './context/AuthContext'
 import NavBar from './components/NavBar'
 import ExpenseForm from './components/ExpenseForm'
 import ExpenseList from './components/ExpenseList'
-import ExpenseSummary from './components/ExpenseSummary'
+import ExpenseDashboard from './components/ExpenseDashboard'
 import CategoryManager from './components/CategoryManager'
 import PersonManager from './components/PersonManager'
 import LoginPage from './pages/LoginPage'
@@ -78,7 +78,7 @@ export default function App() {
       <NavBar view={view} setView={setView} />
 
       {view === 'profile' ? (
-        <ProfilePage />
+        <ProfilePage onPersonsChange={fetchPersons} />
       ) : view === 'admin' ? (
         <AdminPage />
       ) : view === 'categories' ? (
@@ -95,23 +95,27 @@ export default function App() {
         />
       ) : (
         <main className="app-main">
-          <div className="left-panel">
-            <ExpenseSummary expenses={expenses} />
-            <ExpenseForm
-              onSave={handleSave}
-              editing={editing}
-              onCancel={() => setEditing(null)}
-              categories={categories}
-              persons={persons}
-            />
-          </div>
-          <div className="right-panel">
-            <ExpenseList
-              expenses={expenses}
-              onEdit={setEditing}
-              onDelete={handleDelete}
-              categories={categories}
-            />
+          <ExpenseDashboard expenses={expenses} categories={categories} />
+          <div className="app-content">
+            <div className="left-panel">
+              <ExpenseForm
+                onSave={handleSave}
+                editing={editing}
+                onCancel={() => setEditing(null)}
+                categories={categories}
+                persons={persons}
+                authFetch={authFetch}
+                onPersonsChange={fetchPersons}
+              />
+            </div>
+            <div className="right-panel">
+              <ExpenseList
+                expenses={expenses}
+                onEdit={setEditing}
+                onDelete={handleDelete}
+                categories={categories}
+              />
+            </div>
           </div>
         </main>
       )}

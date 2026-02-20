@@ -17,12 +17,14 @@ class Token(BaseModel):
 
 # ── Persons ────────────────────────────────────────────
 PERSON_TYPES = ["Individual", "Company", "Government"]
+RELATION_TYPES = ["Self", "Spouse", "Child", "Parent", "Sibling", "Other"]
 
 
 class PersonCreate(BaseModel):
     name: str
     type: str
     rut: str
+    relation: Optional[str] = None
 
 
 class PersonOut(PersonCreate):

@@ -127,3 +127,133 @@
   font-size: 0.88rem;
   color: #b00;
 }
+
+/* ── My People ─────────────────────────────────────── */
+.people-form {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.people-form input,
+.people-form select {
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s;
+  min-width: 0;
+}
+
+.people-form input:focus,
+.people-form select:focus {
+  border-color: #111;
+}
+
+.people-form input[name="name"] { flex: 2; min-width: 120px; }
+.people-form select               { flex: 1; min-width: 100px; }
+.people-form input[name="rut"]  { flex: 1.5; min-width: 110px; }
+
+.people-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.people-empty {
+  font-size: 0.88rem;
+  color: #aaa;
+  padding: 0.5rem 0;
+}
+
+.people-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  background: #f5f5f5;
+}
+
+.people-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.people-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #111;
+}
+
+.people-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.people-badge {
+  background: #e8e8e8;
+  color: #444;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.people-badge.relation {
+  background: #d8d8d8;
+  color: #222;
+}
+
+.people-rut {
+  font-size: 0.78rem;
+  color: #888;
+}
+
+.people-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.people-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.people-actions button:hover {
+  opacity: 1;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: #111;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.btn-secondary:hover {
+  border-color: #111;
+}

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from database import Base, engine
 from routes.expenses import router as expenses_router
 from routes.auth import router as auth_router
@@ -8,6 +9,14 @@ from routes.categories import router as categories_router
 from routes.persons import router as persons_router
 
 Base.metadata.create_all(bind=engine)
+
+# Zero-downtime migrations for new nullable columns
+with engine.connect() as _conn:
+    try:
+        _conn.execute(text("ALTER TABLE persons ADD COLUMN relation TEXT"))
+        _conn.commit()
+    except Exception:
+        pass  # column already exists
 
 app = FastAPI(title="xpendsTracker API", redirect_slashes=False)
 

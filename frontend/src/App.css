@@ -9,14 +9,23 @@
   width: 100%;
   margin: 0 auto;
   padding: 1.5rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.app-content {
   display: grid;
   grid-template-columns: 340px 1fr;
   gap: 1.5rem;
 }
 
 @media (max-width: 720px) {
-  .app-main {
+  .app-content {
     grid-template-columns: 1fr;
+  }
+
+  .app-main {
     padding: 1rem;
   }
 }
