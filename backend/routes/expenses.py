@@ -10,7 +10,7 @@ from auth import get_current_user
 router = APIRouter(prefix="/expenses", tags=["expenses"])
 
 
-@router.get("/", response_model=List[ExpenseOut])
+@router.get("", response_model=List[ExpenseOut])
 def get_expenses(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     query = db.query(Expense)
     if not current_user.is_admin:
@@ -18,7 +18,7 @@ def get_expenses(db: Session = Depends(get_db), current_user: User = Depends(get
     return query.order_by(Expense.date.desc()).all()
 
 
-@router.post("/", response_model=ExpenseOut, status_code=201)
+@router.post("", response_model=ExpenseOut, status_code=201)
 def create_expense(expense: ExpenseCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     db_expense = Expense(**expense.model_dump(), user_id=current_user.id)
     db.add(db_expense)

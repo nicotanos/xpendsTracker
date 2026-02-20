@@ -12,7 +12,7 @@ export default function AdminPage() {
   }, [])
 
   async function fetchUsers() {
-    const res = await authFetch('/users/')
+    const res = await authFetch('/users')
     if (res.ok) setUsers(await res.json())
     else setError('Failed to load users')
   }

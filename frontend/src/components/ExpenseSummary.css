@@ -1,6 +1,6 @@
 .summary {
-  background: #2563eb;
-  color: white;
+  background: #111;
+  color: #fff;
   border-radius: 12px;
   padding: 1.25rem;
   margin-bottom: 1rem;
@@ -20,7 +20,7 @@
 
 .summary-breakdown {
   list-style: none;
-  border-top: 1px solid rgba(255,255,255,0.3);
+  border-top: 1px solid rgba(255,255,255,0.12);
   padding-top: 0.75rem;
   display: flex;
   flex-direction: column;
@@ -31,5 +31,5 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.875rem;
-  opacity: 0.9;
+  color: rgba(255,255,255,0.65);
 }

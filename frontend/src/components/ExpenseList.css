@@ -10,14 +10,14 @@
   align-items: center;
   justify-content: center;
   min-height: 200px;
-  color: #9ca3af;
+  color: #aaa;
   font-size: 0.95rem;
 }
 
 .expense-list h2 {
   font-size: 1rem;
   font-weight: 600;
-  color: #374151;
+  color: #111;
   margin-bottom: 1rem;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .expense-item:hover {
-  background: #f9fafb;
+  background: #f5f5f5;
 }
 
 .category-dot {
@@ -57,7 +57,7 @@
   display: block;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #111827;
+  color: #111;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -65,13 +65,13 @@
 
 .expense-meta {
   font-size: 0.78rem;
-  color: #9ca3af;
+  color: #aaa;
 }
 
 .expense-amount {
   font-weight: 600;
   font-size: 0.95rem;
-  color: #1a1a1a;
+  color: #111;
   white-space: nowrap;
 }
 

@@ -3,14 +3,45 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from database import get_db
-from models import User
-from schemas import UserOut
-from auth import require_admin
+from models import User, Person
+from schemas import UserOut, UserMeOut, ProfileUpdate
+from auth import require_admin, get_current_user
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-@router.get("/", response_model=List[UserOut])
+@router.get("/me", response_model=UserMeOut)
+def get_me(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    return current_user
+
+
+@router.put("/me/profile", response_model=UserMeOut)
+def update_profile(
+    data: ProfileUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.profile_person_id:
+        person = db.query(Person).filter(Person.id == current_user.profile_person_id).first()
+        if person:
+            person.name = data.name
+            person.type = data.type
+            person.rut = data.rut
+            db.commit()
+            db.refresh(current_user)
+            return current_user
+
+    # No profile person yet — create one
+    person = Person(name=data.name, type=data.type, rut=data.rut, user_id=current_user.id)
+    db.add(person)
+    db.flush()  # get person.id before commit
+    current_user.profile_person_id = person.id
+    db.commit()
+    db.refresh(current_user)
+    return current_user
+
+
+@router.get("", response_model=List[UserOut])
 def list_users(db: Session = Depends(get_db), _=Depends(require_admin)):
     return db.query(User).order_by(User.created_at).all()
 

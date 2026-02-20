@@ -4,10 +4,12 @@ from database import Base, engine
 from routes.expenses import router as expenses_router
 from routes.auth import router as auth_router
 from routes.users import router as users_router
+from routes.categories import router as categories_router
+from routes.persons import router as persons_router
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="xpendsTracker API")
+app = FastAPI(title="xpendsTracker API", redirect_slashes=False)
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,6 +22,8 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(users_router)
 app.include_router(expenses_router)
+app.include_router(categories_router)
+app.include_router(persons_router)
 
 
 @app.get("/")

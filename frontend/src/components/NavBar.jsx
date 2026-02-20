@@ -10,6 +10,18 @@ export default function NavBar({ view, setView }) {
         xpendsTracker
       </span>
       <div className="navbar-right">
+        <button
+          className={`nav-link ${view === 'categories' ? 'active' : ''}`}
+          onClick={() => setView(view === 'categories' ? 'app' : 'categories')}
+        >
+          Categories
+        </button>
+        <button
+          className={`nav-link ${view === 'persons' ? 'active' : ''}`}
+          onClick={() => setView(view === 'persons' ? 'app' : 'persons')}
+        >
+          Persons
+        </button>
         {user?.is_admin && (
           <button
             className={`nav-link ${view === 'admin' ? 'active' : ''}`}
@@ -18,7 +30,12 @@ export default function NavBar({ view, setView }) {
             Admin
           </button>
         )}
-        <span className="navbar-user">{user?.username}</span>
+        <button
+          className={`nav-link ${view === 'profile' ? 'active' : ''}`}
+          onClick={() => setView(view === 'profile' ? 'app' : 'profile')}
+        >
+          {user?.username}
+        </button>
         <button className="btn-logout" onClick={logout}>
           Logout
         </button>

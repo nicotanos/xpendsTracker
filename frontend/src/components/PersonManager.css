@@ -1,0 +1,129 @@
+.person-manager {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.person-manager h2 {
+  margin: 0 0 1.25rem;
+  font-size: 1.25rem;
+  color: #111;
+}
+
+.person-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.person-form input,
+.person-form select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.person-form input:focus,
+.person-form select:focus {
+  border-color: #111;
+}
+
+.person-form input[name="name"] {
+  flex: 2;
+  min-width: 140px;
+}
+
+.person-form select {
+  flex: 1;
+  min-width: 120px;
+}
+
+.person-form input[name="rut"] {
+  flex: 1.5;
+  min-width: 130px;
+}
+
+.person-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.person-empty {
+  color: #aaa;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+}
+
+.person-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  background: #f5f5f5;
+}
+
+.person-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.person-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #111;
+}
+
+.person-meta {
+  font-size: 0.78rem;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.person-type-badge {
+  background: #e8e8e8;
+  color: #444;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.person-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.person-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.person-actions button:hover {
+  opacity: 1;
+}

@@ -1,26 +1,26 @@
 import { useState, useEffect } from 'react'
 import './ExpenseForm.css'
 
-const CATEGORIES = ['Food', 'Transport', 'Housing', 'Health', 'Entertainment', 'Other']
-
-const empty = {
+const empty = (firstCategory = '', firstPersonId = '') => ({
   title: '',
   amount: '',
-  category: 'Food',
+  category: firstCategory,
   date: new Date().toISOString().split('T')[0],
   note: '',
-}
+  provider_id: firstPersonId,
+  recipient_id: firstPersonId,
+})
 
-export default function ExpenseForm({ onSave, editing, onCancel }) {
-  const [form, setForm] = useState(empty)
+export default function ExpenseForm({ onSave, editing, onCancel, categories = [], persons = [] }) {
+  const [form, setForm] = useState(empty())
 
   useEffect(() => {
     if (editing) {
       setForm({ ...editing, amount: String(editing.amount) })
     } else {
-      setForm(empty)
+      setForm(empty(categories[0]?.name ?? '', persons[0]?.id ?? ''))
     }
-  }, [editing])
+  }, [editing, categories, persons])
 
   function handleChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -28,8 +28,13 @@ export default function ExpenseForm({ onSave, editing, onCancel }) {
 
   function handleSubmit(e) {
     e.preventDefault()
-    onSave({ ...form, amount: parseFloat(form.amount) })
-    setForm(empty)
+    onSave({
+      ...form,
+      amount: parseFloat(form.amount),
+      provider_id: parseInt(form.provider_id),
+      recipient_id: parseInt(form.recipient_id),
+    })
+    setForm(empty())
   }
 
   return (
@@ -63,9 +68,30 @@ export default function ExpenseForm({ onSave, editing, onCancel }) {
 
       <label>
         Category
-        <select name="category" value={form.category} onChange={handleChange}>
-          {CATEGORIES.map((c) => (
-            <option key={c}>{c}</option>
+        <select name="category" value={form.category} onChange={handleChange} required>
+          {categories.length === 0 && <option value="">No categories yet</option>}
+          {categories.map((c) => (
+            <option key={c.id} value={c.name}>{c.name}</option>
+          ))}
+        </select>
+      </label>
+
+      <label>
+        Provider
+        <select name="provider_id" value={form.provider_id} onChange={handleChange} required>
+          {persons.length === 0 && <option value="">No persons yet</option>}
+          {persons.map((p) => (
+            <option key={p.id} value={p.id}>{p.name} ({p.type})</option>
+          ))}
+        </select>
+      </label>
+
+      <label>
+        Recipient
+        <select name="recipient_id" value={form.recipient_id} onChange={handleChange} required>
+          {persons.length === 0 && <option value="">No persons yet</option>}
+          {persons.map((p) => (
+            <option key={p.id} value={p.id}>{p.name} ({p.type})</option>
           ))}
         </select>
       </label>

@@ -1,15 +1,7 @@
 import './ExpenseList.css'
 
-const CATEGORY_COLORS = {
-  Food: '#f59e0b',
-  Transport: '#3b82f6',
-  Housing: '#8b5cf6',
-  Health: '#10b981',
-  Entertainment: '#ef4444',
-  Other: '#6b7280',
-}
-
-export default function ExpenseList({ expenses, onEdit, onDelete }) {
+export default function ExpenseList({ expenses, onEdit, onDelete, categories = [] }) {
+  const colorMap = Object.fromEntries(categories.map((c) => [c.name, c.color]))
   if (expenses.length === 0) {
     return (
       <div className="expense-list empty">
@@ -26,12 +18,12 @@ export default function ExpenseList({ expenses, onEdit, onDelete }) {
           <li key={e.id} className="expense-item">
             <span
               className="category-dot"
-              style={{ background: CATEGORY_COLORS[e.category] || '#6b7280' }}
+              style={{ background: colorMap[e.category] || '#6b7280' }}
             />
             <div className="expense-info">
               <span className="expense-title">{e.title}</span>
               <span className="expense-meta">
-                {e.category} &middot; {e.date}
+                {e.category} &middot; {e.provider?.name} &rarr; {e.recipient?.name} &middot; {e.date}
                 {e.note && ` · ${e.note}`}
               </span>
             </div>
