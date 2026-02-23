@@ -11,6 +11,7 @@ export default defineConfig({
       '/users': 'http://localhost:8000',
       '/categories': 'http://localhost:8000',
       '/persons': 'http://localhost:8000',
+      '/scan': 'http://localhost:8000',
     },
   },
 })

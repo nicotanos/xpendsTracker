@@ -53,10 +53,11 @@ export function AuthProvider({ children }) {
   }
 
   function authFetch(url, options = {}) {
+    const isFormData = options.body instanceof FormData
     return fetch(url, {
       ...options,
       headers: {
-        'Content-Type': 'application/json',
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
         ...options.headers,
         Authorization: `Bearer ${token}`,
       },

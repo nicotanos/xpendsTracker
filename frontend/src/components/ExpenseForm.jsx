@@ -27,6 +27,8 @@ export default function ExpenseForm({
   const [form, setForm] = useState(empty())
   const [showNewProvider, setShowNewProvider] = useState(false)
   const [newProvider, setNewProvider] = useState(emptyNewProvider)
+  const [scanning, setScanning] = useState(false)
+  const [scanResult, setScanResult] = useState(null)
 
   useEffect(() => {
     if (editing) {
@@ -63,6 +65,36 @@ export default function ExpenseForm({
     }
   }
 
+  async function handleScan(e) {
+    const file = e.target.files[0]
+    if (!file) return
+    e.target.value = ''  // allow re-selecting same file
+    setScanning(true)
+    setScanResult(null)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await authFetch('/scan/receipt', { method: 'POST', body: fd })
+      if (!res.ok) {
+        const err = await res.json()
+        alert(`Scan failed: ${err.detail || 'Unknown error'}`)
+        return
+      }
+      const data = await res.json()
+      setScanResult(data)
+      if (data.amount) setForm((f) => ({ ...f, amount: String(data.amount) }))
+      if (data.rut) {
+        const normalize = (s) => s?.replace(/[.\-]/g, '') ?? ''
+        const match = persons.find((p) => normalize(p.rut) === normalize(data.rut))
+        if (match) setForm((f) => ({ ...f, provider_id: match.id }))
+      }
+    } catch {
+      alert('Scan failed. Check your network and try again.')
+    } finally {
+      setScanning(false)
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault()
     onSave({
@@ -77,6 +109,28 @@ export default function ExpenseForm({
   return (
     <form className="expense-form" onSubmit={handleSubmit}>
       <h2>{editing ? 'Edit Expense' : 'Add Expense'}</h2>
+
+      <div className="scan-bar">
+        <label className={`btn-scan${scanning ? ' btn-scan--loading' : ''}`} title="Upload a photo or PDF of a receipt">
+          {scanning ? 'Scanning…' : '📎 Scan receipt'}
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            style={{ display: 'none' }}
+            disabled={scanning}
+            onChange={handleScan}
+          />
+        </label>
+        {scanResult && (
+          <span className="scan-badge">
+            {[
+              scanResult.amount != null && `$${scanResult.amount.toLocaleString()}`,
+              scanResult.rut && scanResult.rut,
+              scanResult.provider_name && scanResult.provider_name,
+            ].filter(Boolean).join(' · ')}
+          </span>
+        )}
+      </div>
 
       <label>
         Title
