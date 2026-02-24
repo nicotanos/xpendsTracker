@@ -20,6 +20,8 @@ IMAGE="gcr.io/${PROJECT_ID}/${APP_NAME}"
 DB_INSTANCE="${PROJECT_ID}:${DB_REGION}:${APP_NAME}-db"
 DB_NAME="xpends"
 DB_USER="xpends"
+# URL-encode the password so special chars don't break the connection string
+DB_PASS_ENCODED=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=''))" "${DB_PASS}")
 
 echo "▶ Building React frontend..."
 (cd frontend && npm run build)
@@ -43,7 +45,7 @@ gcloud run deploy "${APP_NAME}" \
   --port 8080 \
   --add-cloudsql-instances "${DB_INSTANCE}" \
   --set-env-vars "\
-DATABASE_URL=postgresql+psycopg2://${DB_USER}:${DB_PASS}@/${DB_NAME}?host=/cloudsql/${DB_INSTANCE},\
+DATABASE_URL=postgresql+psycopg2://${DB_USER}:${DB_PASS_ENCODED}@/${DB_NAME}?host=/cloudsql/${DB_INSTANCE},\
 SECRET_KEY=$(python3 -c 'import secrets; print(secrets.token_hex(32))'),\
 ALLOWED_ORIGINS=https://$(gcloud run services describe ${APP_NAME} --region ${REGION} --format 'value(status.url)' 2>/dev/null | sed 's|https://||' || echo 'localhost')"
 
